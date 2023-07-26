@@ -1,0 +1,72 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import requests
+import re
+from bs4 import BeautifulSoup as bs
+import os 
+import glob
+import time
+import selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+------------------------------------------------
+Path = 'Your path to chromedriver.exe'
+driver = webdriver.Chrome(Path)
+url = "https://www.forbes.com/billionaires/"
+driver.get(url)
+
+
+-------------------------------------------------
+# Find all table row containers
+row_containers = driver.find_elements(By.CLASS_NAME, "TableRow_rowContainer__IC1Tv")
+
+# Lists to store the cell texts
+column1_texts = []
+column2_texts = []
+column3_texts = []
+column4_texts = []
+column5_texts = []
+column6_texts = []
+column7_texts = []
+
+
+# Iterate through each table row container
+for container in row_containers:
+    # Find the table rows within the container
+    rows = container.find_elements(By.CLASS_NAME, "TableRow_row__L-0Km")
+
+    # Iterate through each row
+    for row in rows:
+        # Find the table cells in the current row
+        cells = row.find_elements(By.CLASS_NAME, "TableRow_cell__db-hv.Table_cell__houv9")
+
+        # Extract the text of each cell and append to the respective column list
+        column1_texts.append(cells[0].text)
+        column2_texts.append(cells[1].text)
+        column3_texts.append(cells[2].text)
+        column4_texts.append(cells[3].text)
+        column5_texts.append(cells[4].text)
+        column6_texts.append(cells[5].text)
+        column7_texts.append(cells[6].text)
+
+# Create a DataFrame from the column lists
+df = pd.DataFrame({
+    " Rank": column1_texts,
+    "Name": column2_texts,
+    "Networth": column3_texts,
+    "age": column4_texts,
+    'Country': column5_texts,
+     'Source': column6_texts,
+     'Industry': column7_texts
+})
+
+# Print the DataFrame
+df
+# save the DataFrame to csv_file
+df.to_csv("Billionnaires_Dataset.csv", index = False)
+

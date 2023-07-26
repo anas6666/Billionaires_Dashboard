@@ -1,0 +1,3 @@
+# Billionaires_Dashboard
+Scraping all the billionaires info in Forbes website using selenium Python, then creating a dashboard using power bi to analyze the data 
+The dashboard shows information relating the top 2000 billionnaiires accros the world staring from their wealth, company to their ages...
